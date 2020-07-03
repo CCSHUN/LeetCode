@@ -5,68 +5,69 @@
 using namespace std;
 
 //合并,从小到大排序
-void merge(vector<int>& dst, const vector<int>& left, const vector<int>& right)
+void merge(vector<int>& src, int left, int mid, int right)
 {
-    int left_size = left.size() - 1;
-    int right_size = right.size() - 1;
-    int dst_index = 0;
-    int left_index = 0;
-    int right_index = 0;
+    int left_index = left;
+    int right_index = mid + 1;
+    
+    vector<int> help;
 
-    while (left_index <= left_size && right_index <= right_size)
+    while (left_index <= mid && right_index <= right)   //eg: ((1->3)->(2->4)) to 1->2->3->4 
     {
-        if (left[left_index] < right[right_index])
+        if (src[left_index] < src[right_index])
         {
-            //dst[dst_index++] = left[left_index++]; 没有分配空间会段错误
-            dst.emplace_back(left[left_index++]);
+            //help[left_index++] = src[left_index]; 这种做法会段错误
+            help.emplace_back(src[left_index++]);
         }
         else 
         {
-            //dst[dst_index++] = right[right_index++]; 没有分配空间会段错误
-            dst.emplace_back(right[right_index++]);
-        }
+            help.emplace_back(src[right_index++]);
+        }   
     }
-    //判断哪个vector先结束
-    if (left_size < left_index)
+    //判断左右哪个没有遍历完
+    if (left_index > mid)
     {
-        dst.insert(dst.end(), right.begin() + right_index, right.end());
+        help.insert(help.end(), src.begin() + right_index, src.begin() + right + 1); //疑问为什么要 +1
     }
-    else 
+    else
     {
-        dst.insert(dst.end(), left.begin() + left_index, left.end());
+        help.insert(help.end(), src.begin() + left_index, src.begin() + mid + 1);   //疑问为什么要 +1
+    }
+    //交换help和 src的内容
+    //src.swap(help); 不能这样做，会清空原来已经归并的元素
+    for (const auto& i : help)
+    {
+       src[left++] = i; 
     }
 }
 
 /*
     使用递归归并排序
 */
-void sort_rec(vector<int>& dst, vector<int>& srcVt, int left, int right)
+void sort_rec(vector<int>& srcVt, int left, int right)
 {
-    int mid = (left + right) >> 1;
-    if (left <= right)  //分割到2个元素的时候不再分割 
+    if (left < right)
     {
-        return merge(dst, sort_rec(dst, srcVt, left, mid),sort_rec(dst, srcVt, mid + 1, right)); 
+        int mid = (left + right) >> 1;
+        sort_rec(srcVt, left, mid);
+        sort_rec(srcVt, mid + 1, right);
+        merge(srcVt, left, mid, right);
     }
-    else 
-    {
-        //return merge((srcVt.begin() + left,  srcVt.begin() + mid), 
-        //(srcVt.begin() + mid + 1, srcVt.begin() + right));
-    }
+   
 }
 
 int main()
 {
-    vector<int> array{3, 1, 2};
+    vector<int> array{1, 3, 7, 2, 4, 8};
 
-    vector<int> dst;
-    sort_rec(dst, array, 0, 2);
-    cout<<"排序后:";
-    for (const auto& i : dst)
+    sort_rec(array, 0, 5);
+    //merge(array, 1, 2, 3);
+    cout<<"合并后:";
+    for (const auto& i : array)
     {
         cout<<i<<",";
     }
     cout<<endl;
-
 
 	return 0;
 }

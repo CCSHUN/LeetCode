@@ -5,6 +5,8 @@
         "string": "cpp",
         "iostream": "cpp",
         "algorithm": "cpp",
-        "type_traits": "cpp"
+        "type_traits": "cpp",
+        "ostream": "cpp",
+        "ios": "cpp"
     }
 }
