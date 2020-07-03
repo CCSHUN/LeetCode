@@ -53,15 +53,48 @@ void sort_rec(vector<int>& srcVt, int left, int right)
         sort_rec(srcVt, mid + 1, right);
         merge(srcVt, left, mid, right);
     }
-   
+    
+}
+
+/*
+    使用迭代归并排序
+*/
+void sort_cycle(vector<int>& srcVt, int left, int right)
+{
+    int len = srcVt.size();
+    if (1 >= len)
+    {
+        return;
+    }
+    else
+    {
+        for (int i = 1; i < len; i <<= 1)
+        {
+            for (int j = 0; j < len; j++)
+            {
+                int left = j;
+                if ((j + 2*i) >= len)
+                {
+                    right = len - 1;
+                }
+                else
+                {
+                    right = j + 2*i;
+                }
+                int mid = (right + left) >> 1;
+                merge(srcVt, left, mid, right);
+            }
+        }
+    }
+    
 }
 
 int main()
 {
-    vector<int> array{1, 3, 7, 2, 4, 8};
+    vector<int> array{1, 3, 7, 2, 4, 8, 10, 11, 15, 7};
 
-    sort_rec(array, 0, 5);
-    //merge(array, 1, 2, 3);
+    //sort_rec(array, 0, 9);
+    sort_cycle(array, 0, 9);
     cout<<"合并后:";
     for (const auto& i : array)
     {
