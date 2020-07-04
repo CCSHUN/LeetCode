@@ -7,6 +7,10 @@
         "algorithm": "cpp",
         "type_traits": "cpp",
         "ostream": "cpp",
-        "ios": "cpp"
+        "ios": "cpp",
+        "istream": "cpp",
+        "streambuf": "cpp",
+        "cassert": "cpp",
+        "cstdlib": "cpp"
     }
 }

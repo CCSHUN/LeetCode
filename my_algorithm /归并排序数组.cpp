@@ -70,7 +70,7 @@ void sort_cycle(vector<int>& srcVt, int left, int right)
     {
         for (int i = 1; i < len; i <<= 1)
         {
-            for (int j = 0; j < len; j++)
+            for (int j = 0; j < len; j += 2*i)
             {
                 int left = j;
                 if ((j + 2*i) >= len)
@@ -79,14 +79,14 @@ void sort_cycle(vector<int>& srcVt, int left, int right)
                 }
                 else
                 {
-                    right = j + 2*i;
+                    right = j + 2*i -1;
                 }
-                int mid = (right + left) >> 1;
+                //int mid = (right + left) >> 1; 这个不行，原因 i从1开始计数
+                int mid = j + i - 1;
                 merge(srcVt, left, mid, right);
             }
         }
-    }
-    
+    } 
 }
 
 int main()
