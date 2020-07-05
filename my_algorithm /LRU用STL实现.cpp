@@ -87,8 +87,7 @@ void LRUCache::show_map()
 }
 
 
-int main()
-{
+int main() {
     LRUCache* lru_cache = new LRUCache(3);
     lru_cache->put(1, 11);
     lru_cache->put(2, 22);
