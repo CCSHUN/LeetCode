@@ -62,7 +62,7 @@ void LRUCache::put(int key, int value) {
         if (isFull()) {
             map_.erase(list_cache_.back().first); 
             list_cache_.pop_back();
-            size_--;
+            size_--; //这个地方一定要自减，否则size会不断扩大
         } 
         auto kv = make_pair(key, value);
         list_cache_.push_front(kv);
