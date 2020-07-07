@@ -62,6 +62,7 @@
         "stdexcept": "cpp",
         "string_view": "cpp",
         "system_error": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "__functional_03": "cpp"
     }
 }
